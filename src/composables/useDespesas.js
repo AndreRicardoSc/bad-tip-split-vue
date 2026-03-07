@@ -7,7 +7,7 @@ const STORAGE_KEY = "tarefas";
 function loadFromStorage() {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
-    despesas.value = JSON.parse();
+    despesas.value = JSON.parse(stored);
   }
 }
 
