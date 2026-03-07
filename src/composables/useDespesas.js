@@ -42,7 +42,7 @@ export function useDespesas() {
   }
 
   function detalharDespesa(id) {
-    return despesas.value.find((d) => d.id === id);
+    return despesas.value.find((d) => d.id === parseInt(id));
   }
 
   function atualizarDespesa(id, edicoes) {
