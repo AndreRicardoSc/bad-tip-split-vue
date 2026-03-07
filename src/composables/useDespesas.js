@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 const despesas = ref([]);
 
-const STORAGE_KEY = "tarefas";
+const STORAGE_KEY = "despesas";
 
 function loadFromStorage() {
   const stored = localStorage.getItem(STORAGE_KEY);
