@@ -1,18 +1,27 @@
 <script setup>
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
 import { onMounted, ref } from "vue";
 import { formatDate } from "../utils/formatDate";
 import { useRouter } from "vue-router";
 import { useDespesas } from "../composables/useDespesas";
 import { useDarkLightMode } from "../composables/useDarkLightMode";
 const { detalharDespesa } = useDespesas();
-const { mode, setDark } = useDarkLightMode();
+const { mode } = useDarkLightMode();
 
 const router = useRouter();
+const $toast = useToast();
 const despesa = ref(null);
+
 onMounted(() => {
   despesa.value = detalharDespesa(router.currentRoute.value.params.id);
-  console.log(despesa.value);
-  setDark()
+  if(!despesa.value) {
+    router.push({ name: 'home-view' });
+    $toast.error('Erro ao encontrar despesa.', {
+        duration: 3000,
+        position: 'top'
+    })
+  }
 });
 </script>
 
@@ -144,9 +153,12 @@ onMounted(() => {
 
 .resume-light {
     background: #ffffff;
+    color: #4a5565;
+    border: solid 1px #f3f4f6;
 }
 .resume-dark {
     background: #1e2939;
+    color: #99a1af;
     border: solid 1px #364153;
 }
 
@@ -159,7 +171,6 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #a1a1a1;
   border-bottom: solid 1px;
   padding-block: 20px;
 }

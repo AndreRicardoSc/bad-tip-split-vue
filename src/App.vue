@@ -15,7 +15,7 @@ div {
 }
 
 .dark-main {
-  background: #1e2939;
+  background: #1a2434;
 }
 .light-main {
   background: #fafafa;
