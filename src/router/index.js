@@ -6,13 +6,10 @@ const routes = [
         name: 'home-view',
         component: () => import('../views/HomeView.vue'),
     },
-    // {
-    //     path: 'despesas/:id/edit',
-    // },
     {
         path: '/despesas/:id',
         component: () => import('../views/DespesaDetailView.vue'),
-    }
+    },
 ];
 
 const router  = createRouter({
