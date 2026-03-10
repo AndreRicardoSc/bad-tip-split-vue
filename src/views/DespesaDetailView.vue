@@ -78,7 +78,7 @@ onMounted(() => {
     </div>
     <div class="value">
       <p class="per-people">Valor por pessoa</p>
-      <p class="quant">{{ despesa?.porPessoa }}</p>
+      <p class="quant">R$ {{ Number(despesa?.porPessoa).toFixed(2).replace('.', ',') }}</p>
     </div>
   </div>
 </template>

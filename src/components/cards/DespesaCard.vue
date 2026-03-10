@@ -1,18 +1,31 @@
 <script setup>
 import { formatDate } from '../../utils/formatDate';
 import { useDarkLightMode } from '../../composables/useDarkLightMode';
+import { useRouter } from 'vue-router';
 const { mode } = useDarkLightMode();
+const router = useRouter();
+
 const props = defineProps({
     id: Number,
     titulo: String,
     criadoEm: {
         type: String,
         default: ''
+    },
+    redirect: {
+        type: Boolean,
+        default: false
     }
 });
+
+function redirect() {
+    if(props.redirect) {
+        router.push({ name: 'despesa-detail', params: { id: props.id }})
+    }
+}
 </script>
 <template>
-    <div class="card" :class="mode === 'light' ? 'card-light text-black' : 'card-dark text-white'">
+    <div @click="redirect" class="card" :class="mode === 'light' ? 'card-light text-black' : 'card-dark text-white'">
         <div class="top">
             <span class="mdi mdi-wallet-bifold icon"></span>
             <div>
@@ -36,6 +49,12 @@ const props = defineProps({
   border-radius: 16px;
   box-shadow: var(--card-shadow);
   border-top: 6px solid transparent;
+}
+
+.card:active {
+  transform: scale(98%);
+  opacity: 50%;
+  transition: all 200ms;
 }
 
 .card-light {

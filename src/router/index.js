@@ -8,6 +8,7 @@ const routes = [
     },
     {
         path: '/despesas/:id',
+        name: 'despesa-detail',
         component: () => import('../views/DespesaDetailView.vue'),
     },
 ];
