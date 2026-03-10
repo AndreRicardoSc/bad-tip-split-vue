@@ -72,14 +72,14 @@ div {
   color: #364153;
   font-size: 20px;
   border-radius: 16px;
-  padding: 0 8px;
+  padding: 8px 12px;
 }
 .back-dark {
   border: solid 2px #364153;
   color: #e5e7eb;
   font-size: 20px;
   border-radius: 16px;
-  padding: 0 8px;
+  padding: 8px 12px;
 }
 
 .home {

@@ -1,8 +1,9 @@
 <script setup>
-import {useToast} from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
+import AppHeader from "../components/layouts/AppHeader.vue";
+import DespesaCard from "../components/cards/DespesaCard.vue";
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 import { onMounted, ref } from "vue";
-import { formatDate } from "../utils/formatDate";
 import { useRouter } from "vue-router";
 import { useDespesas } from "../composables/useDespesas";
 import { useDarkLightMode } from "../composables/useDarkLightMode";
@@ -11,39 +12,35 @@ const { mode } = useDarkLightMode();
 
 const router = useRouter();
 const $toast = useToast();
-const despesa = ref(null);
+const despesa = ref({});
 
 onMounted(() => {
   despesa.value = detalharDespesa(router.currentRoute.value.params.id);
-  if(!despesa.value) {
-    router.push({ name: 'home-view' });
-    $toast.error('Erro ao encontrar despesa.', {
-        duration: 3000,
-        position: 'top'
-    })
+  if (!despesa.value) {
+    router.push({ name: "home-view" });
+    $toast.error("Erro ao encontrar despesa.", {
+      duration: 3000,
+      position: "top",
+    });
   }
 });
 </script>
 
 <template>
+  <AppHeader :title="despesa.titulo" button-back/>
   <div class="detail-view">
-    <div class="top" :class="mode === 'light' ? 'top-light' : 'top-dark'">
-      <span class="icon mdi mdi-wallet-bifold"></span>
-      <div class="top-info">
-        <h3
-          class="title"
-          :class="mode === 'light' ? 'text-black' : 'text-white'"
-        >
-          {{ despesa?.titulo }}
-        </h3>
-        <p class="date">
-          <span class="mdi mdi-calendar-blank-outline"></span
-          >{{ formatDate(despesa?.criadoEm) }}
-        </p>
-      </div>
-    </div>
-    <div class="resume" :class="mode === 'light' ? 'resume-light' : 'resume-dark'">
-      <h3 :class="mode === 'light' ? 'text-black' : 'text-white'">Resumo do Cálculo</h3>
+    <DespesaCard
+        :id="despesa.id"
+        :titulo="despesa.titulo"
+        :criado-em="despesa.criadoEm"
+    />
+    <div
+      class="resume"
+      :class="mode === 'light' ? 'resume-light' : 'resume-dark'"
+    >
+      <h3 :class="mode === 'light' ? 'text-black' : 'text-white'">
+        Resumo do Cálculo
+      </h3>
       <ul class="list">
         <li class="item-list">
           <p class="list-title">Valor da conta</p>
@@ -71,14 +68,17 @@ onMounted(() => {
           </p>
         </li>
       </ul>
-      <div class="total" :class="mode === 'light' ? 'text-black' : 'text-white'">
+      <div
+        class="total"
+        :class="mode === 'light' ? 'text-black' : 'text-white'"
+      >
         <p>Total</p>
         <p>R$ {{ Number(despesa?.total).toFixed(2).replace(".", ",") }}</p>
       </div>
     </div>
     <div class="value">
-        <p class="per-people">Valor por pessoa</p>
-        <p class="quant">{{ despesa?.porPessoa }}</p>
+      <p class="per-people">Valor por pessoa</p>
+      <p class="quant">{{ despesa?.porPessoa }}</p>
     </div>
   </div>
 </template>
@@ -91,75 +91,24 @@ onMounted(() => {
   padding: 20px;
 }
 
-.top {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: var(--card-shadow);
-  border-top: 6px solid transparent;
-}
-
-.top-light {
-    background:
-        linear-gradient(#fff, #fff) padding-box,
-        linear-gradient(90deg, var(--pink-primary), var(--pink-secondary))
-            border-box;
-}
-
-.top-dark {
-    background:
-        linear-gradient(#1e2939, #1e2939) padding-box,
-        linear-gradient(90deg, var(--pink-primary), var(--pink-secondary))
-        border-box;
-}
-
-.icon {
-  color: var(--pink-primary);
-  background: #8b5cf615;
-  font-size: 32px;
-  padding: 8px 14px;
-  border-radius: 16px;
-}
-
-.top-info {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.title {
-  font-size: 25px;
-  font-weight: 600;
-}
-
-.date {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 20px;
-  color: #a1a1a1;
-}
-
 .resume {
   display: flex;
   flex-direction: column;
   border-radius: 16px;
   padding: 30px;
-  font-size: 20px;
+  font-size: 15px;
   box-shadow: var(--card-shadow);
 }
 
 .resume-light {
-    background: #ffffff;
-    color: #4a5565;
-    border: solid 1px #f3f4f6;
+  background: #ffffff;
+  color: #4a5565;
+  border: solid 1px #f3f4f6;
 }
 .resume-dark {
-    background: #1e2939;
-    color: #99a1af;
-    border: solid 1px #364153;
+  background: #1e2939;
+  color: #99a1af;
+  border: solid 1px #364153;
 }
 
 .list {
@@ -192,17 +141,21 @@ onMounted(() => {
 }
 
 .value {
-    color: #ffffff;
-    background: linear-gradient(90deg, var(--pink-primary), var(--pink-secondary));
-    padding: 30px;
-    border-radius: 16px;
+  color: #ffffff;
+  background: linear-gradient(
+    90deg,
+    var(--pink-primary),
+    var(--pink-secondary)
+  );
+  padding: 30px;
+  border-radius: 16px;
 }
 
 .per-people {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .quant {
-    font-size: 40px;
+  font-size: 40px;
 }
 </style>
