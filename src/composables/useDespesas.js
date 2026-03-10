@@ -45,13 +45,24 @@ export function useDespesas() {
     return despesas.value.find((d) => d.id === parseInt(id));
   }
 
-  function atualizarDespesa(id, edicoes) {
+  function atualizarDespesa(id, despesa) {
     const index = despesas.value.findIndex((d) => d.id === parseInt(id));
-
+    const gorjeta = despesa.valor * (despesa.porcentagemGorjeta / 100);
+    const total = despesa.valor + gorjeta;
+    const porPessoa = total / despesa.pessoas;
+    
     if(index !== -1 ) {
         despesas.value[index] = {
-            ...despesas.value[index],
-            ...edicoes,
+            id: Number(despesa.id),
+            titulo: despesa.titulo,
+            total,
+            gorjeta,
+            porPessoa,
+            details: {
+              valor: despesa.valor,
+              porcentagemGorjeta: despesa.porcentagemGorjeta,
+              pessoas: despesa.pessoas
+            },
             editadoEm: new Date().toISOString(),
         }
         saveStorage();

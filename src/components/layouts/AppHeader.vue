@@ -45,7 +45,7 @@ const props = defineProps({
 <style scoped>
 .header-light {
   background-color: #fff;
-  padding: 30px;
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -54,7 +54,7 @@ const props = defineProps({
 
 .header-dark {
   background-color: #1e2939;
-  padding: 30px;
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;

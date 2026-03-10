@@ -11,6 +11,16 @@ const routes = [
         name: 'despesa-detail',
         component: () => import('../views/DespesaDetailView.vue'),
     },
+    {
+        path: '/despesas/:id/edit',
+        name: 'despesa-form',
+        component: () => import('../views/DespesaFormView.vue'),
+    },
+    {
+        path: '/despesas/:id',
+        name: 'despesa-detail',
+        component: () => import('../views/DespesaDetailView.vue'),
+    },
 ];
 
 const router  = createRouter({

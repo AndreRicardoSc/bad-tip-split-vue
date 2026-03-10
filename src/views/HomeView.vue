@@ -1,7 +1,9 @@
 <script setup>
 import AppHeader from "../components/layouts/AppHeader.vue";
+import AppButton from "../components/forms/AppButton.vue";
 import DespesaCard from "../components/cards/DespesaCard.vue";
 import { useDespesas } from "../composables/useDespesas";
+import router from "../router";
 const { despesas } = useDespesas();
 </script>
 <template>
@@ -42,6 +44,7 @@ const { despesas } = useDespesas();
       </DespesaCard>
     </div>
   </div>
+  <AppButton text="Adicionar despesa" @event="router.push('/despesas/new/edit')"/>
 </template>
 <style scoped>
 .content {

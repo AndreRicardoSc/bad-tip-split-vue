@@ -1,29 +1,35 @@
 <script setup>
 import AppHeader from "../components/layouts/AppHeader.vue";
+import AppButton from "../components/forms/AppButton.vue";
 import DespesaCard from "../components/cards/DespesaCard.vue";
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useDespesas } from "../composables/useDespesas";
 import { useDarkLightMode } from "../composables/useDarkLightMode";
 const { detalharDespesa } = useDespesas();
 const { mode } = useDarkLightMode();
 
 const router = useRouter();
+const route = useRoute();
 const $toast = useToast();
 const despesa = ref({});
 
 onMounted(() => {
   despesa.value = detalharDespesa(router.currentRoute.value.params.id);
   if (!despesa.value) {
-    router.push({ name: "home-view" });
     $toast.error("Erro ao encontrar despesa.", {
       duration: 3000,
-      position: "top",
+      position: "top"
     });
+    router.push('/')
   }
 });
+
+function goToEdit() {
+  router.push(`/despesas/${router.currentRoute.value.params.id}/edit`)
+}
 </script>
 
 <template>
@@ -81,6 +87,9 @@ onMounted(() => {
       <p class="quant">R$ {{ Number(despesa?.porPessoa).toFixed(2).replace('.', ',') }}</p>
     </div>
   </div>
+  <button class="edit" @click="goToEdit">
+    <span class="mdi mdi-square-edit-outline"></span>
+  </button>
 </template>
 
 <style scoped>
@@ -157,5 +166,24 @@ onMounted(() => {
 
 .quant {
   font-size: 40px;
+}
+
+.edit {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--pink-primary);
+  border: none;
+  color: #ffffff;
+  font-size: 30px;
+  height: 64px;
+  width: 64px;
+  border-radius: 50px;
+  transition: all 200ms;
+}
+
+.edit:focus {
+  transform: scale(98%);
+  background: var(--pink-secondary);
 }
 </style>
