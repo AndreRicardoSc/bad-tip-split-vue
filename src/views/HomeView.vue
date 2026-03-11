@@ -119,4 +119,16 @@ const { mode } = useDarkLightMode();
   text-align: center;
   color: var(--pink-primary);
 }
+
+@media (min-width: 550px) {
+  .mascot img{
+    width: 50%;
+  }
+}
+
+@media (min-width: 1048px) {
+  .mascot img {
+    width: 30%;
+  }
+}
 </style>
