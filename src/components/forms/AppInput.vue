@@ -33,6 +33,7 @@ const props = defineProps({
       :class="mode === 'light' ? 'input-light' : 'input-dark'"
       :type="props.type"
       :placeholder="props.placeholder"
+      min="0"
       v-model="model"
     />
   </div>

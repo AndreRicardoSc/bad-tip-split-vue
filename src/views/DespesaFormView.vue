@@ -43,7 +43,7 @@ function handleSubmit() {
   if (
     !form.value.titulo ||
     !form.value.valor ||
-    !form.value.porcentagemGorjeta ||
+    form.value.porcentagemGorjeta < 0 ||
     !form.value.pessoas
   ) {
     $toast.warning("Todos os campos precisam ser preenchidos", {
