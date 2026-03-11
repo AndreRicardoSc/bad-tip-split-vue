@@ -3,13 +3,15 @@ import AppHeader from "../components/layouts/AppHeader.vue";
 import AppButton from "../components/forms/AppButton.vue";
 import DespesaCard from "../components/cards/DespesaCard.vue";
 import { useDespesas } from "../composables/useDespesas";
+import { useDarkLightMode } from "../composables/useDarkLightMode";
 import router from "../router";
 const { despesas } = useDespesas();
+const { mode } = useDarkLightMode();
 </script>
 <template>
-  <AppHeader title="Divisão de Despesas" subtitle="Suas despesas salvas" />
+  <AppHeader title="Cálculo de Despesas" subtitle="Suas despesas salvas" />
   <div class="despesas">
-    <div class="cards">
+    <div v-if="despesas.length > 0" class="cards">
       <DespesaCard
         v-for="(despesa, index) of despesas"
         :key="index"
@@ -42,6 +44,10 @@ const { despesas } = useDespesas();
           </ul>
         </template>
       </DespesaCard>
+    </div>
+    <div v-else class="mascot">
+      <img src="/images/nota.png" alt="mascote">
+      <p>Nenhuma despesa encontrada</p>
     </div>
   </div>
   <AppButton text="Adicionar despesa" @event="router.push('/despesas/new/edit')"/>
@@ -93,5 +99,24 @@ const { despesas } = useDespesas();
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.mascot {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.mascot img {
+  width: 100%;
+}
+
+.mascot p {
+  font-weight: 600;
+  font-size: 30px;
+  text-align: center;
+  color: var(--pink-primary);
 }
 </style>

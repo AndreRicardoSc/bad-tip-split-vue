@@ -87,11 +87,11 @@ function handleSubmit() {
 
 <template>
   <AppHeader
-    :title="isEditMode ? 'Editar Cálculo' : 'Novo Cálculo'"
+    :title="isEditMode ? 'Editar Despesa' : 'Nova Despesa'"
     :subtitle="
       isEditMode
         ? 'Altere os valores da sua despesa'
-        : 'Adicione uma nova despesa'
+        : 'Calcule uma nova despesa'
     "
     button-back
   />

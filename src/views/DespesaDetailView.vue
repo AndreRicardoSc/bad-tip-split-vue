@@ -8,13 +8,15 @@ import { onMounted, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useDespesas } from "../composables/useDespesas";
 import { useDarkLightMode } from "../composables/useDarkLightMode";
-const { detalharDespesa } = useDespesas();
+import ConfirmModal from "../components/cards/ConfirmModal.vue";
+const { detalharDespesa, deletarDespesa } = useDespesas();
 const { mode } = useDarkLightMode();
 
 const router = useRouter();
 const route = useRoute();
 const $toast = useToast();
 const despesa = ref({});
+const modalOpen = ref(false); 
 
 onMounted(() => {
   despesa.value = detalharDespesa(router.currentRoute.value.params.id);
@@ -27,12 +29,22 @@ onMounted(() => {
   }
 });
 
+function deleteDespesa(name) {
+  deletarDespesa(Number(route.params.id));
+  $toast.success(`${name} deletado com sucesso!`, {
+    duration: 3000,
+    position: 'top'
+  })
+  router.push('/');
+}
+
 function goToEdit() {
   router.push(`/despesas/${router.currentRoute.value.params.id}/edit`)
 }
 </script>
 
 <template>
+  <ConfirmModal v-if="modalOpen" text="Deseja deletar esta despesa?" @close="modalOpen = false" @event="deleteDespesa(despesa.titulo)"/>
   <AppHeader :title="despesa.titulo" button-back/>
   <div class="detail-view">
     <DespesaCard
@@ -86,6 +98,10 @@ function goToEdit() {
       <p class="per-people">Valor por pessoa</p>
       <p class="quant">R$ {{ Number(despesa?.porPessoa).toFixed(2).replace('.', ',') }}</p>
     </div>
+    <button class="delete" @click="modalOpen = true">
+      <span class="mdi mdi-trash-can-outline"></span>
+      <p>Deletar Despesa</p>
+    </button>
   </div>
   <button class="edit" @click="goToEdit">
     <span class="mdi mdi-square-edit-outline"></span>
@@ -166,6 +182,28 @@ function goToEdit() {
 
 .quant {
   font-size: 40px;
+}
+
+.delete {
+  height: 70px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #e95b5b;
+  background: transparent;
+  border: solid 1px #e95b5b;
+  border-radius: 16px;
+  transition: all 200ms;
+}
+
+.delete span {
+  font-size: 25px;
+}
+
+.delete:active {
+  background: #ff8c8c;
 }
 
 .edit {
